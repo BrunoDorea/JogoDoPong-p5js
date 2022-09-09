@@ -9,6 +9,10 @@
   <a href="#memo-licença">Licença</a>
 </p>
 
+<p align="center">
+
+</p>
+
 ## 🚀 Tecnologias
 
 Esse projeto foi desenvolvido com as seguintes tecnologias:

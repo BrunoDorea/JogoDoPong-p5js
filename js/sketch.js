@@ -14,6 +14,15 @@ let yRaquete = 150
 let comprimentoRaquete = 10 
 let alturaRaquete = 90
 
+// variaveis do oponente
+let xRaqueteOponente = 585
+let yRaqueteOponente = 150
+let velocidadeYOponente
+
+// placar do jogo
+let meusPontos = 0
+let pontosOponente = 0
+
 let colidiu = false
 
 function setup() {
@@ -25,10 +34,15 @@ function draw() {
   mostraBolinha()
   movimentaBolinha()
   verificaColisaoBorda()
-  mostraRaquete()
+  mostraRaquete(xRaquete, yRaquete)
+  mostraRaquete(xRaqueteOponente, yRaqueteOponente)
   movimentaRaquetePlayer1()
   // verificaColisaoRaquete()
-  colisaoMinhaRaqueteBiblioteca()
+  verificaColisaoRaquete(xRaquete, yRaquete)
+  verificaColisaoRaquete(xRaqueteOponente, yRaqueteOponente)
+  movimentaRaqueteOponente()
+  incluiPlacar()
+  marcaPonto()
 }
 
 function mostraBolinha() {
@@ -50,8 +64,8 @@ function verificaColisaoBorda() {
   }
 }
 
-function mostraRaquete() {
-  rect(xRaquete, yRaquete, comprimentoRaquete, alturaRaquete)
+function mostraRaquete(x, y) {
+  rect(x, y, comprimentoRaquete, alturaRaquete)
 }
 
 function movimentaRaquetePlayer1() {
@@ -61,6 +75,11 @@ function movimentaRaquetePlayer1() {
   if (keyIsDown(DOWN_ARROW)) {
     yRaquete += 10
   }
+}
+
+function movimentaRaqueteOponente() {
+  velocidadeYOponente = yBolinha - yRaqueteOponente - comprimentoRaquete / 2 - 30
+  yRaqueteOponente += velocidadeYOponente
 }
 
 function verificaColisaoRaquete() {
@@ -73,9 +92,26 @@ function verificaColisaoRaquete() {
   }
 }
 
-function colisaoMinhaRaqueteBiblioteca() {
-  colidiu = collideRectCircle(xRaquete, yRaquete, comprimentoRaquete, alturaRaquete, xBolinha, yBolinha, raio)
+// Utilizando a Biblioteca p5.collide.js
+function verificaColisaoRaquete(x, y) {
+  colidiu = collideRectCircle(x, y, comprimentoRaquete, alturaRaquete, xBolinha, yBolinha, raio)
   if (colidiu) {
     velocidadeXBolinha *= -1
+  }
+}
+
+function incluiPlacar() {
+  fill(255)
+  text(meusPontos, 270, 25)
+  text("vs ", 300, 25)
+  text(pontosOponente, 330, 25)
+}
+
+function marcaPonto() {
+  if(xBolinha > 590) {
+    meusPontos += 1
+  }
+  if (xBolinha < 10) {
+    pontosOponente += 1
   }
 }
