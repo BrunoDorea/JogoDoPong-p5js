@@ -5,8 +5,8 @@ let diametro = 15
 let raio = diametro / 2
 
 // velocidade da bolinha
-let velocidadeXBolinha = 5
-let velocidadeYBolinha = 5
+let velocidadeXBolinha = 6
+let velocidadeYBolinha = 6
 
 // variaveis da raquete
 let xRaquete = 5
@@ -25,8 +25,24 @@ let pontosOponente = 0
 
 let colidiu = false
 
+// sons do jogo
+let raquetadaSom
+let pontoSom
+let trilhaSonora
+
+// codigos das teclas
+let teclaW = 87
+let teclaS = 83
+
+function preload() {
+  trilhaSonora = loadSound('../assets/music/trilha.mp3')
+  raquetadaSom = loadSound('../assets/music/raquetada.mp3')
+  ponto = loadSound('../assets/music/ponto.mp3')
+}
+
 function setup() {
   createCanvas(600, 400);
+  trilhaSonora.loop()
 }
   
 function draw() {
@@ -78,8 +94,12 @@ function movimentaRaquetePlayer1() {
 }
 
 function movimentaRaqueteOponente() {
-  velocidadeYOponente = yBolinha - yRaqueteOponente - comprimentoRaquete / 2 - 30
-  yRaqueteOponente += velocidadeYOponente
+  if (keyIsDown(teclaW)) {
+    yRaqueteOponente -= 10
+  }
+  if (keyIsDown(teclaS)) {
+    yRaqueteOponente += 10
+  }
 }
 
 function verificaColisaoRaquete() {
@@ -89,6 +109,7 @@ function verificaColisaoRaquete() {
     yBolinha + raio > yRaquete
     ) {
     velocidadeXBolinha *= -1
+    raquetadaSom.play()
   }
 }
 
@@ -97,14 +118,26 @@ function verificaColisaoRaquete(x, y) {
   colidiu = collideRectCircle(x, y, comprimentoRaquete, alturaRaquete, xBolinha, yBolinha, raio)
   if (colidiu) {
     velocidadeXBolinha *= -1
+    raquetadaSom.play()
   }
 }
 
 function incluiPlacar() {
+  stroke(255)
+  textSize(24)
+  textAlign(CENTER)
+
+  fill(color(255,140,0))
+  rect(150, 10, 40, 23)
   fill(255)
-  text(meusPontos, 270, 25)
-  text("vs ", 300, 25)
-  text(pontosOponente, 330, 25)
+  text(meusPontos, 170, 30)
+
+  text("vs ", 300, 30)
+
+  fill(color(255,140,0))
+  rect(450, 10, 40, 23)
+  fill(255)
+  text(pontosOponente, 470, 30)
 }
 
 function marcaPonto() {
