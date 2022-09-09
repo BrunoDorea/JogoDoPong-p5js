@@ -59,6 +59,7 @@ function draw() {
   movimentaRaqueteOponente()
   incluiPlacar()
   marcaPonto()
+  bolinhaNaoFicaPresa()
 }
 
 function mostraBolinha() {
@@ -146,5 +147,11 @@ function marcaPonto() {
   }
   if (xBolinha < 10) {
     pontosOponente += 1
+  }
+}
+
+function bolinhaNaoFicaPresa(){
+  if (xBolinha + raio < 0){
+  xBolinha = 300;
   }
 }
